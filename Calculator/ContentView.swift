@@ -13,43 +13,44 @@ class GlobalEnviroment: ObservableObject {
     
     @Published var display = "0"
     
-    @Published private var value1: Double = 0
-    @Published private var value2: Double = 0
-    @Published private var oper: CalculatorButtons = .plus
+    @Published private var value1: Decimal = 0
+    @Published private var value2: Decimal = 0
+    @Published private var oper: String = ""
     @Published private var isTyping: Bool = false
     
     func recieveInput(calculatorButton: CalculatorButtons) {
         if digits.contains(calculatorButton) {
-        if isTyping == false {
+            if isTyping == false {
+                if calculatorButton == .decimal {
+                    display = "0,"
+                } else {
                 display = calculatorButton.title
+                }
                 isTyping = true
-            } else {
+            } else if !display.contains(",") || calculatorButton != .decimal {
             self.display += calculatorButton.title
+            }
         }
-        }
-        
         switch calculatorButton {
         case .ac: display = "0"; isTyping = false
         case .plus, .minus, .multiply, .divide: operationPressed(operation: calculatorButton)
-        case .equals: count()
+        case .equals: count(); display = calc(v1: value1, v2: value2, oper: oper)
         default: break
         }
-        
-        func operationPressed(operation: CalculatorButtons) -> Void {
-            value1 = Double(display.replacingOccurrences(of: ",", with: "."))!
-            isTyping = false
-            oper = operation
-        }
-        func count() {
-            isTyping = false
-            value2 = Double(display.replacingOccurrences(of: ",", with: "."))!
-            switch oper {
-            case .plus: display = String(value1 + value2).replacingOccurrences(of: ".", with: ",")
-            case .minus: display = String(value1 - value2).replacingOccurrences(of: ".", with: ",")
-            case .multiply: display = String(value1 * value2).replacingOccurrences(of: ".", with: ",")
-            case .divide: display = String(value1 / value2).replacingOccurrences(of: ".", with: ",")
-            default: break
-            }
+    }
+    func count() {
+        isTyping = false
+        value2 = Decimal.init(string: display.replacingOccurrences(of: ",", with: "."))!
+    }
+    func operationPressed(operation: CalculatorButtons) -> Void {
+        value1 = Decimal.init(string: display.replacingOccurrences(of: ",", with: "."))!
+        isTyping = false
+        switch operation {
+        case .plus: oper = "+"
+        case .minus: oper = "-"
+        case .multiply: oper = "*"
+        case .divide: oper = "/"
+        default: break
         }
     }
 }
@@ -102,9 +103,6 @@ enum CalculatorButtons: String {
 struct ContentView: View {
     
     @EnvironmentObject var env: GlobalEnviroment
-//    @State private var value1: Double = 0
-//    @State private var value2: Double = 0
-//    @State private var operation: String = ""
     
     let buttons: [[CalculatorButtons]] = [
         [.ac, .plusMinus, .percent, .divide],

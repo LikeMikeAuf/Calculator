@@ -15,3 +15,16 @@ struct CalculatorApp: App {
         }
     }
 }
+
+    func calc(v1: Decimal, v2: Decimal, oper: String) -> String {
+        var result: Decimal = 0
+        switch oper {
+        case "+": result = v1 + v2
+        case "-": result = v1 - v2
+        case "*": result = v1 * v2
+        case "/": result = v1 / v2
+        default: break
+        }
+        let resultToDisplay = NSDecimalNumber(decimal: result).stringValue
+        return resultToDisplay.replacingOccurrences(of: ".", with: ",")
+    }

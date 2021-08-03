@@ -31,6 +31,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2709060226B9E84200AE472C /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		27ED67D226B2D40400D4AB67 = {
 			isa = PBXGroup;
 			children = (
@@ -50,6 +57,7 @@
 		27ED67DD26B2D40400D4AB67 /* Calculator */ = {
 			isa = PBXGroup;
 			children = (
+				2709060226B9E84200AE472C /* Preview Content */,
 				27ED67DE26B2D40400D4AB67 /* CalculatorApp.swift */,
 				27ED67E726B2D40600D4AB67 /* Info.plist */,
 				270905FC26B9BEDA00AE472C /* ContentView.swift */,
